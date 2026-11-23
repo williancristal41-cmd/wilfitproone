@@ -1,0 +1,493 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>WilFit v2</title>
+<style>
+:root{--bg:#121212;--card:#181818;--el:#282828;--g:#1DB954;--w:#fff;--mu:#B3B3B3;--red:#F3727F;--r:8px}
+html{color-scheme:dark}
+html[data-t=light]{color-scheme:light;--bg:#F4F4F4;--card:#fff;--el:#E8E8E8;--g:#159C46;--w:#121212;--mu:#5F5F5F;--red:#D6334A}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--w);font-family:Inter,"Helvetica Neue Light","Segoe UI Light",Arial,sans-serif;min-height:100dvh;-webkit-font-smoothing:antialiased;transition:background-color .25s}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+button:disabled{opacity:.3;cursor:default}
+input,select{font:inherit;font-size:16px;width:100%;min-width:0;background:var(--el);color:var(--w);border:0;border-radius:var(--r);padding:12px;outline:0}
+:focus-visible{outline:2px solid var(--g);outline-offset:1px}
+svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.wrap{max-width:720px;margin:0 auto;padding:16px 16px calc(110px + env(safe-area-inset-bottom))}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.logo{font-size:24px;font-weight:800;letter-spacing:-.5px;font-family:Inter,sans-serif}.logo span{color:var(--g)}
+h1{font-size:26px;font-weight:700;font-family:Inter,sans-serif}h2{font-size:20px;font-weight:700;overflow-wrap:anywhere}h3{font-size:16px;font-weight:700}
+.mu{color:var(--mu);font-size:13px}.sub{margin:4px 0 16px}.center{text-align:center;padding:8px 0}.lh{line-height:1.5}
+.lbl{display:block;font-size:12px;color:var(--mu);margin-bottom:4px}
+.lab{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--g);font-weight:700}
+.card{background:var(--card);border-radius:var(--r);padding:16px;margin-top:14px}
+.row{display:flex;align-items:center;gap:10px}.sp{justify-content:space-between}.grow{flex:1;min-width:0}
+.mt{margin-top:14px}.mt2{margin-top:10px}.mt0{margin-top:0}.mb{margin-bottom:10px}.w64{width:64px;flex-shrink:0;font-size:14px}
+.sec{font-size:18px;font-weight:700;margin:24px 0 8px;font-family:Inter,sans-serif}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:46px;padding:0 18px;border-radius:999px;background:var(--el);font-size:14px;font-weight:700;transition:transform .15s,filter .2s;font-family:Inter,sans-serif}
+.btn:hover{filter:brightness(1.1)}.btn:active{transform:scale(.97)}
+.btn.pri{background:var(--g);color:#000}.btn.dng{color:var(--red)}.btn.w{width:100%}
+html[data-t=light] .btn.pri,html[data-t=light] .pill.on,html[data-t=light] .add.on{color:#fff}
+.ib{width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:var(--mu);flex-shrink:0}
+.ib:hover{background:var(--el);color:var(--w)}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.pill{background:var(--el);border-radius:999px;padding:8px 16px;font-size:14px}
+.pill.on{background:var(--g);color:#000;font-weight:600}
+.tag{display:inline-block;background:var(--el);border-radius:999px;padding:5px 12px;font-size:12px;color:var(--mu);margin:0 6px 6px 0}
+.bar{height:6px;background:var(--el);border-radius:999px;overflow:hidden;margin:12px 0}.bar i{display:block;height:100%;background:var(--g);transition:width .4s}
+.wk{display:flex;gap:6px}
+.dy{flex:1;background:var(--card);border-radius:var(--r);padding:10px 0 8px;font-size:12px;color:var(--mu);text-align:center}
+.dy b{display:block;font-size:15px;color:var(--w);margin-top:3px}
+.dy.hj{color:var(--g)}.dy.on{background:var(--el);outline:1px solid var(--g)}
+.dy i{display:block;width:6px;height:6px;border-radius:50%;margin:6px auto 0}.dy i.dt{background:var(--g)}
+.th{position:relative;width:48px;height:48px;border-radius:var(--r);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px;overflow:hidden}
+.th img,.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2}
+.hero{position:relative;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:64px;background:var(--el)}
+.ex{padding:10px 0;cursor:pointer;border-top:1px solid var(--el)}.ex:first-of-type{border-top:0}
+.ex:focus-visible{border-radius:var(--r)}
+.ex:hover b{color:var(--g)}
+.st{min-width:44px;height:30px;border-radius:999px;background:var(--el);color:var(--mu);font-size:12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;padding:0 8px}
+.st.on{background:var(--g);color:#000}
+.add{width:34px;height:34px;border-radius:50%;background:var(--g);color:#000;font-size:20px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.add.on{background:var(--el);color:var(--g)}
+.lib{cursor:pointer}.lib:hover{filter:brightness(1.08)}
+.g3{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:8px;margin-top:10px}
+.g3s{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.stat{background:var(--card);border-radius:var(--r);padding:14px 8px;text-align:center}.stat b{display:block;font-size:22px}.stat span{font-size:12px;color:var(--mu)}
+.coach{border-left:4px solid var(--g)}
+.sr{display:flex;align-items:center;gap:8px;background:var(--el);border-radius:var(--r);padding:8px 10px;margin-bottom:8px}
+.sr input{flex:1;padding:8px;background:var(--card)}
+.chk{width:40px;height:40px;border-radius:50%;border:2px solid #555;display:flex;align-items:center;justify-content:center;color:transparent;flex-shrink:0;font-weight:800}
+.chk.on{background:var(--g);border-color:var(--g);color:#000}
+.rt{background:var(--el);border-radius:999px;padding:10px;text-align:center;font-weight:700;color:var(--g);margin-top:12px}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:50;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--card);width:100%;max-width:720px;max-height:92dvh;overflow:auto;border-radius:16px 16px 0 0;padding:16px 16px calc(24px + env(safe-area-inset-bottom))}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--el);z-index:20;padding-bottom:env(safe-area-inset-bottom)}
+nav>div{max-width:720px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+.tab{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0 9px;font-size:10px;color:var(--mu)}
+.tab svg{width:22px;height:22px}.tab.on{color:var(--g)}
+.cv{width:100%;margin-top:8px}
+.cv svg{width:100%;height:auto;display:block}
+.cv text{font-family:inherit}
+.cv text.ax{fill:var(--mu);font-size:10px;font-weight:300;letter-spacing:0.5px}
+.cv .gl{stroke:var(--el);stroke-width:1}
+.leg{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--mu);margin-top:6px}
+.leg i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:middle}
+.crd-list{margin-top:16px}
+.crd-item{padding:12px 0;border-bottom:1px solid var(--el);display:flex;align-items:center;gap:10px}
+.crd-item:last-child{border-bottom:none}
+#toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--el);padding:12px 20px;border-radius:999px;font-size:14px;z-index:200;max-width:90%;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.auth-box{max-width:400px;margin:10vh auto;padding:24px;background:var(--card);border-radius:var(--r);text-align:center}
+.auth-box input{margin-bottom:12px}
+.loader{display:inline-block;width:24px;height:24px;border:3px solid var(--mu);border-bottom-color:var(--g);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="auth-box">
+    <div class="loader"></div>
+    <p class="mu mt2">Conectando ao banco de dados...</p>
+  </div>
+</div>
+<div id="toast" hidden role="status" aria-live="polite"></div>
+
+<!-- Firebase SDKs -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+  import { getFirestore, doc, onSnapshot, setDoc, updateDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+  /* ===================== 1. CONFIGURAÇÃO FIREBASE ===================== */
+  // COLE SUAS CHAVES DO FIREBASE AQUI
+  const firebaseConfig = {
+    apiKey: "SUA_API_KEY",
+    authDomain: "SEU_PROJETO.firebaseapp.com",
+    projectId: "SEU_PROJETO",
+    storageBucket: "SEU_PROJETO.appspot.com",
+    messagingSenderId: "SEU_ID",
+    appId: "SEU_APP_ID"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  /* ===================== 2. CONFIGURAÇÃO DE FOTOS ===================== */
+  /* 
+    Por padrão, as fotos devem ficar numa pasta "fotos" junto do seu HTML.
+    O nome do arquivo deve ser IGUAL ao ID do exercício (ex: supino_reto_barra.jpg).
+    Se for usar Firebase Storage, troque a URL base abaixo.
+  */
+  const IMG_BASE = "./fotos/"; 
+  const IMG_SUFFIX = ""; // Se usar Firebase Storage, coloque "?alt=media"
+  const imgUrl = (id) => `${IMG_BASE}${id}.jpg${IMG_SUFFIX}`;
+
+  /* ===================== UTILITÁRIOS E CONSTANTES ===================== */
+  const $=(s,r=document)=>r.querySelector(s);
+  const pad=n=>String(n).padStart(2,"0");
+  const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const norm=s=>String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  const fm=(n,d=1)=>(+n||0).toLocaleString("pt-BR",{maximumFractionDigits:d});
+  const clampN=(v,mn,mx,def)=>{if(v===""||v==null)return def;const n=Math.round(+v);return isFinite(n)?Math.min(mx,Math.max(mn,n)):def};
+  
+  const DN=["Seg","Ter","Qua","Qui","Sex","Sáb","Dom"];
+  const GR=["Peito","Costas","Ombros","Bíceps","Tríceps","Pernas","Glúteos","Abdômen","Panturrilha"];
+  const GC={Peito:"#DA291C",Costas:"#2E86DE",Ombros:"#F39C12",Bíceps:"#16A085",Tríceps:"#8E44AD",Pernas:"#27AE60",Glúteos:"#E84393",Abdômen:"#7F8C8D",Panturrilha:"#D35400"};
+  const GD={Peito:["trabalha o peitoral, com apoio de ombros e tríceps","Mantenha as escápulas firmes e controle a descida."],Costas:["trabalha dorsais e romboides","Peito aberto e ombros longe das orelhas."],Ombros:["trabalha os deltoides","Evite balançar o tronco; use carga com técnica limpa."],"Bíceps":["trabalha a flexão do cotovelo","Cotovelos fixos ao lado do corpo, sem impulso."],"Tríceps":["trabalha a extensão do cotovelo","Cotovelos estáveis e extensão controlada."],Pernas:["trabalha coxas e quadril","Joelhos alinhados com os pés e coluna neutra."],"Glúteos":["trabalha glúteos e posteriores","Contraia o glúteo no topo e evite arquear a lombar."],"Abdômen":["trabalha o core","Respire com controle e não puxe o pescoço."],Panturrilha:["trabalha a panturrilha","Amplitude completa: desça alongando e suba na ponta dos pés."]};
+  const TIPOS=["Esteira","Caminhada","Corrida","Bicicleta","Elíptico"];
+
+  /* 
+    CATÁLOGO DE EXERCÍCIOS
+    Formato: id | Nome | Grupo | Equipamento | Descrição Específica (Opcional)
+  */
+  const CAT=`supino_reto_barra|Supino reto com barra|Peito|Barra|Deite no banco e desça a barra até a linha do peitoral.
+supino_inclinado_halter|Supino inclinado com halter|Peito|Halteres|Incline o banco a 30-45 graus. Foco na parte superior do peito.
+crucifixo_reto|Crucifixo reto|Peito|Halteres|Mantenha os cotovelos levemente flexionados durante o movimento.
+crossover|Crossover|Peito|Polia|Cruze os cabos à frente do corpo contraindo bem o peitoral.
+flexao|Flexão de braços|Peito|Peso corporal
+puxada_frontal|Puxada frontal|Costas|Polia
+remada_curvada|Remada curvada|Costas|Barra
+remada_baixa|Remada baixa|Costas|Polia
+barra_fixa|Barra fixa|Costas|Peso corporal
+pullover|Pullover|Costas|Halter
+desenvolvimento_halteres|Desenvolvimento com halteres|Ombros|Halteres
+elevacao_lateral|Elevação lateral|Ombros|Halteres
+elevacao_frontal|Elevação frontal|Ombros|Halteres
+arnold_press|Arnold press|Ombros|Halteres
+face_pull|Face pull|Ombros|Polia
+rosca_direta|Rosca direta|Bíceps|Barra
+rosca_martelo|Rosca martelo|Bíceps|Halteres
+rosca_scott|Rosca Scott|Bíceps|Máquina
+triceps_corda|Tríceps corda|Tríceps|Polia
+triceps_testa|Tríceps testa|Tríceps|Barra W
+mergulho_banco|Mergulho no banco|Tríceps|Peso corporal
+agachamento_livre|Agachamento livre|Pernas|Barra
+legpress|Leg press|Pernas|Máquina
+cadeira_extensora|Cadeira extensora|Pernas|Máquina
+mesa_flexora|Mesa flexora|Pernas|Máquina
+avanco|Avanço|Pernas|Halteres
+stiff|Stiff|Pernas|Barra
+elevacao_pelvica|Elevação pélvica|Glúteos|Barra
+agachamento_bulgaro|Agachamento búlgaro|Glúteos|Halteres
+coice_polia|Coice na polia|Glúteos|Polia
+cadeira_abdutora|Cadeira abdutora|Glúteos|Máquina
+abdominal_supra|Abdominal supra|Abdômen|Peso corporal
+abdominal_infra|Abdominal infra|Abdômen|Peso corporal
+prancha|Prancha|Abdômen|Peso corporal
+russian_twist|Russian twist|Abdômen|Anilha
+panturilha_em_pe|Panturrilha em pé|Panturrilha|Máquina
+panturilha_sentado|Panturrilha sentado|Panturrilha|Máquina`.split("\n").map(l=>{const[id,n,g,e,desc]=l.split("|");return{id,n,g,e,desc,nn:norm(n+" "+g)}});
+  const EX=Object.fromEntries(CAT.map(x=>[x.id,x]));
+  const DAYS={0:["Peito e Tríceps",["supino_reto_barra","supino_inclinado_halter","crossover","triceps_corda"]],1:["Costas e Bíceps",["puxada_frontal","remada_curvada","remada_baixa","rosca_direta","rosca_martelo"]],2:["Pernas",["agachamento_livre","legpress","cadeira_extensora","mesa_flexora","panturilha_em_pe"]],3:["Ombros",["desenvolvimento_halteres","elevacao_lateral","arnold_press","face_pull"]],4:["Glúteos e Core",["elevacao_pelvica","agachamento_bulgaro","stiff","abdominal_supra","prancha"]],5:null,6:null};
+
+  /* ===================== DATAS ===================== */
+  const fmtD=t=>t.getFullYear()+"-"+pad(t.getMonth()+1)+"-"+pad(t.getDate());
+  const parseK=k=>{const[y,m,d]=k.split("-").map(Number);return new Date(y,m-1,d,12)};
+  const todayK=()=>fmtD(new Date());
+  const addD=(k,n)=>{const t=parseK(k);t.setDate(t.getDate()+n);return fmtD(t)};
+  const monOf=k=>{const t=parseK(k);t.setDate(t.getDate()-((t.getDay()+6)%7));return fmtD(t)};
+  const wdIdx=()=>(new Date().getDay()+6)%7;
+  const wkey=d=>addD(monOf(todayK()),d);
+  const brd=k=>k.split("-").reverse().slice(0,2).join("/");
+  const weekKeys=()=>{const cur=monOf(todayK());return[...Array(8)].map((_,i)=>addD(cur,-7*(7-i)))};
+
+  /* ===================== ESTADO E FIREBASE ===================== */
+  let DB = null;
+  let userUID = null;
+  let userEmail = null;
+  let isAdmin = false;
+  let dbUnsubscribe = null;
+  const ADMIN_EMAIL = "williancanuto1991@gmail.com";
+
+  const P=d=>DB.plan[d]||(DB.plan[d]={n:"Meu treino",ex:[]});
+  const pw=(k,id)=>DB.prog[k+":"+id]||(DB.prog[k+":"+id]={kg:[],reps:[],done:[]});
+  const doneN=(k,e)=>{const pr=DB.prog[k+":"+e.id];return pr?Math.min(e.s,pr.done.slice(0,e.s).filter(Boolean).length):0};
+  const has=id=>{const pl=DB.plan[S.dia];return !!pl&&pl.ex.some(x=>x.id===id)};
+  const pace=x=>{if(!x.km||!x.min)return"";const t=Math.round(x.min/x.km*60);return pad(Math.floor(t/60))+":"+pad(t%60)+"/km"};
+  const imc=()=>{const p=DB.prof;let h=+p.alt;const w=+p.peso;if(h>0&&h<3)h*=100;if(!h||!w)return["--","Informe altura e peso"];const v=w/((h/100)**2);return[v.toFixed(1).replace(".",","),v<18.5?"Abaixo do peso":v<25?"Peso normal":v<30?"Sobrepeso":"Obesidade"]};
+  const COACH=["Cada série conta. Bora!","Constância vence motivação.","Foque na execução; a carga vem depois.","Treino feito é meta cumprida.","Hoje é dia de superar a versão de ontem."];
+  const NEW=()=>({plan:Object.fromEntries([0,1,2,3,4,5,6].map(d=>[d,DAYS[d]?{n:DAYS[d][0],ex:DAYS[d][1].map(id=>({id,s:3,r:"10-12",d:60}))}:null])),prog:{},fin:[],cardio:[],bw:[],prof:{nome:"",alt:"",peso:""},theme:"dark",status:"pending",email:userEmail});
+
+  let st=0;
+  window.save = () => {
+    if(!userUID || !DB) return;
+    clearTimeout(st);
+    st=setTimeout(()=>{
+      try { updateDoc(doc(db, "users", userUID), DB); } 
+      catch(e) { console.error("Erro ao salvar", e); }
+    }, 500);
+  };
+
+  const S={v:"home",dia:wdIdx(),m:null,q:"",g:"Todos",cf:{t:"Esteira",min:"",km:"",obs:""},rest:null,cfm:false,cfr:false,adminUsers:[]};
+
+  /* ===================== COMPONENTES ===================== */
+  const IC={home:'<path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-6h4v6"/>',list:'<path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/>',pulse:'<path d="M3 12h4l2-6 4 12 2-6h6"/>',book:'<path d="M5 4h10a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17a3 3 0 0 1 3-3h10"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',check:'<path d="M5 12l5 5L20 7"/>',up:'<path d="M6 15l6-6 6 6"/>',dn:'<path d="M6 9l6 6 6-6"/>',trash:'<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>',sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',moon:'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>'};
+  const ic=n=>`<svg viewBox="0 0 24 24" aria-hidden="true">${IC[n]}</svg>`;
+  
+  // Componente de Imagem (Miniatura e Hero) com fallback elegante
+  const media=(x,cls)=>`<span class="${cls}" style="background:${GC[x.g]||"#555"}" aria-hidden="true"><b>${esc(x.n[0])}</b><img src="${esc(imgUrl(x.id))}" alt="" loading="lazy" onerror="this.style.display='none'"></span>`;
+  const th=x=>media(x,"th");
+  const hero=x=>media(x,"hero");
+
+  function barChart(vals,labels,c="#DA291C"){
+    const W=320,H=180,p=30,mx=Math.max(1,...vals),bw=(W-2*p)/vals.length;
+    const g=vals.map((v,i)=>{const h=(v/mx)*(H-2*p),x=p+i*bw+bw*.15,y=H-p-h,cx=x+bw*.35;
+      return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${(bw*.7).toFixed(1)}" height="${h.toFixed(1)}" rx="3" fill="${c}"><title>${esc(labels[i])}: ${fm(v)}</title></rect><text class="ax" x="${cx.toFixed(1)}" y="${H-6}" text-anchor="middle">${esc(labels[i])}</text>${v?`<text class="ax" x="${cx.toFixed(1)}" y="${(y-4).toFixed(1)}" text-anchor="middle">${fm(v,0)}</text>`:""}`}).join("");
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Gráfico">${g}</svg>`;
+  }
+
+  /* ===================== TELAS ===================== */
+  const wkStrip=()=>`<div class="wk">${DN.map((d,i)=>{const pl=DB.plan[i];return `<button class="dy ${i===S.dia?"on":""} ${i===wdIdx()?"hj":""}" data-a="dia" data-v="${i}" aria-label="${d}" aria-pressed="${i===S.dia}">${d}<b>${parseK(addD(monOf(todayK()),i)).getDate()}</b><i class="${pl&&pl.ex.length?"dt":""}"></i></button>`}).join("")}</div>`;
+
+  function vHome(){
+    const d=S.dia,k=wkey(d),pl=DB.plan[d],h=new Date().getHours(),gr=h<12?"Bom dia":h<18?"Boa tarde":"Boa noite";
+    const lab=d===wdIdx()?"Treino de hoje":"Treino de "+DN[d];
+    let body;
+    if(!pl||!pl.ex.length)body=`<div class="card"><span class="lab">${lab}</span><h2 class="mt2">Sem exercícios</h2><p class="mu mt2">Monte o treino adicionando exercícios da biblioteca.</p><button class="btn pri mt" data-a="pick">Adicionar exercício</button></div>`;
+    else{
+      const tot=pl.ex.reduce((a,e)=>a+e.s,0),dn=pl.ex.reduce((a,e)=>a+doneN(k,e),0),fin=DB.fin.includes(k),nx=pl.ex.findIndex(e=>doneN(k,e)<e.s);
+      body=`<div class="card"><span class="lab">${lab}</span><h2 class="mt2 mb">${esc(pl.n)}</h2>
+      <div class="row"><span class="tag">${pl.ex.length} exercícios</span><span class="tag">${dn}/${tot} séries</span></div>
+      <div class="bar"><i style="width:${tot?dn/tot*100:0}%"></i></div>
+      ${pl.ex.map((e,i)=>{const o=doneN(k,e),ok=o>=e.s;return `<div class="ex row" data-a="ex" data-v="${i}" role="button" tabindex="0">${th(EX[e.id])}<div class="grow"><b>${EX[e.id].n}</b><div class="mu">${e.s} × ${esc(e.r)} · descanso ${e.d}s</div></div><span class="st ${ok?"on":""}">${ok?"✓":o+"/"+e.s}</span></div>`}).join("")}
+      <div class="mt">${nx>=0?`<button class="btn pri w" data-a="ex" data-v="${nx}">${dn?"Continuar treino":"Começar treino"}</button>`:fin?`<p class="center mu">Treino finalizado hoje. Bom trabalho!</p>`:`<button class="btn pri w" data-a="fin">Finalizar treino</button>`}</div></div>`;
+    }
+    const sets=Object.values(DB.prog).reduce((a,p)=>a+p.done.filter(Boolean).length,0);
+    const km=DB.cardio.reduce((a,c)=>a+(+c.km||0),0);
+    return `<p class="mu">${esc(parseK(todayK()).toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long"}))}</p>
+    <h1 class="mb">${gr}, ${esc(DB.prof.nome||"atleta")}</h1>${wkStrip()}${body}
+    <div class="card coach"><span class="lab">Coach</span><p class="mt2 lh" style="font-size:16px">${esc(COACH[new Date().getDate()%COACH.length])}</p></div>
+    <div class="sec">Progresso</div><div class="g3s mt0"><div class="stat"><b>${DB.fin.length}</b><span>Treinos</span></div><div class="stat"><b>${sets}</b><span>Séries</span></div><div class="stat"><b>${fm(km)}</b><span>Km de cardio</span></div></div>`;
+  }
+
+  function vTrn(){
+    const d=S.dia,pl=DB.plan[d]||{n:"",ex:[]};
+    return `<h1>Treinos</h1><p class="mu sub">Monte a semana do seu jeito.</p>${wkStrip()}
+    <div class="card"><label class="lbl" for="pn">Nome do treino</label><input id="pn" data-f="pn" value="${esc(pl.n)}" placeholder="Ex.: Peito e Tríceps"></div>
+    ${pl.ex.map((e,i)=>`<div class="card"><div class="row">${th(EX[e.id])}<b class="grow">${EX[e.id].n}</b><button class="ib" data-a="up" data-v="${i}" ${i?"":"disabled"} aria-label="Subir">${ic("up")}</button><button class="ib" data-a="dn" data-v="${i}" ${i<pl.ex.length-1?"":"disabled"} aria-label="Descer">${ic("dn")}</button><button class="ib" data-a="rm" data-v="${i}" aria-label="Remover">${ic("trash")}</button></div>
+    <div class="g3"><div><label class="lbl">Séries</label><input type="number" inputmode="numeric" data-f="ex" data-i="${i}" data-k="s" value="${e.s}"></div><div><label class="lbl">Repetições</label><input data-f="ex" data-i="${i}" data-k="r" value="${esc(e.r)}"></div><div><label class="lbl">Descanso (s)</label><input type="number" inputmode="numeric" data-f="ex" data-i="${i}" data-k="d" value="${e.d}"></div></div></div>`).join("")||'<div class="card"><p class="mu">Nenhum exercício neste dia.</p></div>'}
+    <button class="btn pri w mt" data-a="pick">Adicionar exercício</button>
+    ${pl.ex.length?`<div class="sec">Copiar para</div><div class="pills mt0">${DN.map((x,i)=>i===d?"":`<button class="pill" data-a="cp" data-v="${i}">${x}</button>`).join("")}</div><button class="btn dng w" data-a="clr">${S.cfm?"Toque de novo para confirmar":"Limpar este dia"}</button>`:""}`;
+  }
+
+  function vCrd(){
+    const wk=monOf(todayK()),sw=DB.cardio.filter(c=>monOf(c.date)===wk),F=S.cf,wks=weekKeys();
+    return `<h1>Cardio</h1><p class="mu sub">Registre suas sessões e acompanhe o km semanal.</p>
+    <div class="g3s mt0"><div class="stat"><b>${sw.length}</b><span>Sessões</span></div><div class="stat"><b>${sw.reduce((a,c)=>a+c.min,0)}</b><span>Minutos</span></div><div class="stat"><b>${fm(sw.reduce((a,c)=>a+(+c.km||0),0),2)}</b><span>Km</span></div></div>
+    <div class="card"><h3 class="mb">Nova sessão</h3><label class="lbl" for="cft">Tipo</label><select id="cft" data-f="cf" data-k="t">${TIPOS.map(t=>`<option ${F.t===t?"selected":""}>${t}</option>`).join("")}</select>
+    <div class="row mt2"><div class="grow"><label class="lbl" for="cmin">Tempo (min)</label><input id="cmin" type="number" inputmode="numeric" data-f="cf" data-k="min" value="${esc(F.min)}"></div><div class="grow"><label class="lbl" for="ckm">Distância (km)</label><input id="ckm" type="number" inputmode="decimal" step="0.01" data-f="cf" data-k="km" value="${esc(F.km)}"></div></div>
+    <label class="lbl mt2" for="cobs">Observações</label><input id="cobs" data-f="cf" data-k="obs" value="${esc(F.obs)}">
+    <button class="btn pri w mt" data-a="crg">Registrar</button></div>
+    <div class="card"><h3>Km por semana</h3><div class="cv">${barChart(wks.map(w=>DB.cardio.filter(c=>monOf(c.date)===w).reduce((a,c)=>a+(+c.km||0),0)),wks.map(brd),"#1DB954")}</div></div>
+    <div class="sec">Histórico</div>
+    <div class="crd-list">${DB.cardio.map((x,i)=>({x,i})).reverse().map(({x,i})=>`<div class="crd-item"><div class="grow"><b>${esc(x.t)}</b><div class="mu">${brd(x.date)} · ${x.min} min${x.km?" · "+fm(x.km,2)+" km":""}${x.obs?" · "+esc(x.obs):""}</div></div><button class="ib" data-a="cdel" data-v="${i}" aria-label="Excluir">${ic("trash")}</button></div>`).join("")||'<p class="mu">Nenhuma sessão registrada.</p>'}</div>`;
+  }
+
+  const gpills=()=>["Todos",...GR].map(g=>`<button class="pill ${S.g===g?"on":""}" data-a="g" data-v="${g}">${g}</button>`).join("");
+  function libList(){
+    const q=norm(S.q.trim()),L=CAT.filter(x=>(S.g==="Todos"||x.g===S.g)&&x.nn.includes(q));
+    if(!L.length)return'<p class="mu center" style="padding:30px 0">Nada encontrado</p>';
+    return L.map(x=>{const on=has(x.id);return `<div class="card row lib" data-a="addx" data-v="${x.id}" role="button" tabindex="0">${th(x)}<div class="grow"><b>${x.n}</b><div class="mu">${x.g} · ${x.e}</div></div><span class="add ${on?"on":""}" aria-label="${on?"Remover":"Adicionar"} ${esc(x.n)}">${on?"✓":"+"}</span></div>`}).join("");
+  }
+  function vLib(){return `<h1>Biblioteca</h1><p class="mu sub">Toque para adicionar ou remover do treino de ${DN[S.dia]}.</p>
+    <input data-f="q" placeholder="Buscar exercício" aria-label="Buscar exercício" value="${esc(S.q)}"><div class="pills">${gpills()}</div><div id="ll">${libList()}</div>`}
+
+  function vPrf(){
+    const p=DB.prof,[v,c]=imc();
+    return `<h1>Perfil</h1><p class="mu sub">${esc(DB.email)}</p>
+    <div class="card"><label class="lbl" for="pnome">Nome</label><input id="pnome" data-f="p" data-k="nome" value="${esc(p.nome)}">
+    <div class="row mt2"><div class="grow"><label class="lbl" for="palt">Altura (cm)</label><input id="palt" type="number" inputmode="decimal" data-f="p" data-k="alt" value="${esc(p.alt)}"></div><div class="grow"><label class="lbl" for="ppeso">Peso atual (kg)</label><input id="ppeso" type="number" inputmode="decimal" step="0.1" data-f="p" data-k="peso" value="${esc(p.peso)}"></div></div></div>
+    <div class="card row sp"><div><span class="lab">IMC</span><div class="mu" id="imcc">${c}</div></div><b id="imc" style="font-size:34px">${v}</b></div>
+    ${isAdmin?`<button class="btn pri w mt" data-a="admin">Painel de Administrador</button>`:""}
+    <button class="btn dng w mt" data-a="logout">Sair da Conta</button>`;
+  }
+
+  function vAdmin(){
+    return `<h1>Administrador</h1><p class="mu sub">Aprovação de usuários pendentes.</p>
+    ${S.adminUsers.length?S.adminUsers.map(u=>`<div class="card row"><div class="grow"><b>${esc(u.email)}</b><div class="mu">ID: ${u.id.slice(0,8)}...</div></div><button class="btn pri" data-a="approve" data-v="${u.id}">Aprovar</button></div>`).join(""):'<div class="card"><p class="mu">Nenhum usuário aguardando aprovação.</p></div>'}
+    <button class="btn w mt" data-a="nav" data-v="prf">Voltar ao Perfil</button>`;
+  }
+
+  const VIEWS={home:vHome,trn:vTrn,crd:vCrd,lib:vLib,prf:vPrf,admin:vAdmin};
+  const TABS=[["home","Início","home"],["trn","Treinos","list"],["crd","Cardio","pulse"],["lib","Biblioteca","book"],["prf","Perfil","user"]];
+
+  const rtTxt=()=>{if(!S.rest)return"";const l=Math.ceil((S.rest.end-Date.now())/1000);return l>0?"Descanso "+pad(Math.floor(l/60))+":"+pad(l%60):""};
+  
+  function exModal(){
+    const{i,d}=S.m,pl=DB.plan[d],e=pl&&pl.ex[i];if(!e)return"";
+    const x=EX[e.id],k=wkey(d),pr=DB.prog[k+":"+e.id]||{kg:[],reps:[],done:[]},n=pl.ex.length,all=doneN(k,e)>=e.s;
+    const sets=Array.from({length:e.s},(_,j)=>`<div class="sr"><b class="w64">Série ${j+1}</b><input type="number" inputmode="decimal" placeholder="kg" aria-label="Carga da série ${j+1}" data-f="set" data-n="${j}" value="${pr.kg[j]??""}"><input type="number" inputmode="numeric" placeholder="reps" aria-label="Repetições da série ${j+1}" data-f="rep" data-n="${j}" value="${pr.reps[j]??""}"><button class="chk ${pr.done[j]?"on":""}" data-a="ser" data-n="${j}" aria-label="Concluir série ${j+1}">✓</button></div>`).join("");
+    return `<div class="ov" data-a="bg"><div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(x.n)}">
+    <div class="row sp"><div class="grow"><h2>${x.n}</h2><div class="mu">${x.g} · ${x.e} · exercício ${i+1} de ${n}</div></div><button class="ib" data-a="x" aria-label="Fechar">${ic("x")}</button></div>
+    <div class="mt2">${hero(x)}</div>
+    <p class="mu mt2 lh">${x.desc ? esc(x.desc) : `Trabalha ${GD[x.g][0]}. ${GD[x.g][1]}`}</p>
+    <div class="rt" id="rt" ${S.rest?"":"hidden"}>${rtTxt()}</div>
+    <h3 class="mt">Séries · ${esc(e.r)} repetições</h3><div class="mu mb">Informe a carga (kg) e as repetições feitas.</div>${sets}
+    ${all?`<button class="btn pri w mt" data-a="nx">${i<n-1?"Próximo exercício":"Fechar"}</button>`:""}
+    <h3 class="mt">Ajustar planejamento</h3>
+    <div class="g3"><div><label class="lbl">Séries</label><input type="number" inputmode="numeric" data-f="ex" data-d="${d}" data-i="${i}" data-k="s" value="${e.s}"></div><div><label class="lbl">Repetições</label><input data-f="ex" data-d="${d}" data-i="${i}" data-k="r" value="${esc(e.r)}"></div><div><label class="lbl">Descanso (s)</label><input type="number" inputmode="numeric" data-f="ex" data-d="${d}" data-i="${i}" data-k="d" value="${e.d}"></div></div>
+    </div></div>`;
+  }
+
+  function pickModal(){
+    return `<div class="ov" data-a="bg"><div class="sheet" role="dialog" aria-modal="true" aria-label="Adicionar exercício">
+    <div class="row sp"><h2>Adicionar a ${DN[S.dia]}</h2><button class="ib" data-a="x" aria-label="Fechar">${ic("x")}</button></div>
+    <input class="mt" data-f="q" placeholder="Buscar exercício" aria-label="Buscar exercício" value="${esc(S.q)}">
+    <div class="pills">${gpills()}</div><div id="ll">${libList()}</div></div></div>`;
+  }
+
+  function draw(){
+    const y=scrollY;
+    document.documentElement.dataset.t=DB.theme==="light"?"light":"dark";
+    $("#app").innerHTML=`<div class="wrap"><div class="top"><div class="logo">Wil<span>Fit</span></div><button class="ib" data-a="theme" aria-label="Alternar tema" style="width:40px;height:40px;background:var(--el)">${ic(DB.theme==="light"?"moon":"sun")}</button></div>${VIEWS[S.v]()}</div>
+    <nav><div>${TABS.map(t=>`<button class="tab ${S.v===t[0]?"on":""}" data-a="nav" data-v="${t[0]}" ${S.v===t[0]?'aria-current="page"':""}>${ic(t[2])}<span>${t[1]}</span></button>`).join("")}</div></nav>
+    ${S.m?(S.m.t==="pick"?pickModal():exModal()):""}`;
+    scrollTo(0,y);
+  }
+
+  let raf=0;const rd=()=>{if(!raf)raf=requestAnimationFrame(()=>{raf=0;draw()})};
+  let tt=0;function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,2200)}
+
+  /* ===================== AÇÕES E EVENTOS ===================== */
+  const curEx=()=>{if(!S.m||S.m.t!=="ex")return null;const pl=DB.plan[S.m.d],e=pl&&pl.ex[S.m.i];return e?{e,k:wkey(S.m.d)}:null};
+  const closeM=()=>{S.m=null;S.q="";S.g="Todos"};
+
+  document.addEventListener("click",ev=>{
+    const b=ev.target.closest("[data-a]");if(!b)return;
+    const a=b.dataset.a,v=b.dataset.v,n=+b.dataset.n;
+    if(a==="bg"&&ev.target!==b)return;
+    switch(a){
+      case"nav":S.v=v;S.m=null;break;
+      case"theme":DB.theme=DB.theme==="light"?"dark":"light";window.save();break;
+      case"dia":S.dia=+v;break;
+      case"g":S.g=v;break;
+      case"pick":S.m={t:"pick"};S.q="";S.g="Todos";break;
+      case"ex":S.m={t:"ex",i:+v,d:S.dia};break;
+      case"x":case"bg":closeM();break;
+      case"ser":{const c=curEx();if(!c)break;const pr=pw(c.k,c.e.id);pr.done[n]=!pr.done[n];S.rest=pr.done[n]&&c.e.d?{end:Date.now()+c.e.d*1000}:null;window.save();break}
+      case"nx":{S.rest=null;const pl=DB.plan[S.m.d];if(S.m.i<pl.ex.length-1)S.m.i++;else closeM();break}
+      case"addx":{const pl=P(S.dia),i=pl.ex.findIndex(x=>x.id===v);if(i>=0){pl.ex.splice(i,1);toast("Removido")}else{pl.ex.push({id:v,s:3,r:"10-12",d:60});toast("Adicionado")}window.save();break}
+      case"fin":{const k=wkey(S.dia);if(!DB.fin.includes(k))DB.fin.push(k);window.save();toast("Treino finalizado!");break}
+      case"up":case"dn":{const L=P(S.dia).ex,i=+v,j=a==="up"?i-1:i+1;if(L[j])[L[i],L[j]]=[L[j],L[i]];window.save();break}
+      case"rm":P(S.dia).ex.splice(+v,1);window.save();break;
+      case"cp":DB.plan[+v]=JSON.parse(JSON.stringify(P(S.dia)));window.save();toast("Copiado");break;
+      case"clr":if(S.cfm){DB.plan[S.dia]=null;S.cfm=false;window.save()}else{S.cfm=true;setTimeout(()=>{S.cfm=false;rd()},3000)}break;
+      case"crg":{const f=S.cf;if(!(+f.min>0)){toast("Informe o tempo");break}DB.cardio.push({t:f.t,min:+f.min,km:+f.km||0,obs:f.obs,date:todayK()});S.cf={t:f.t,min:"",km:"",obs:""};window.save();toast("Registrado");break}
+      case"cdel":DB.cardio.splice(+v,1);window.save();break;
+      case"logout":signOut(auth);break;
+      case"admin":S.v="admin";loadAdminUsers();break;
+      case"approve":approveUser(v);break;
+    }
+    rd();
+  });
+
+  document.addEventListener("input",ev=>{
+    const t=ev.target,f=t.dataset.f;if(!f)return;const v=t.value;
+    if(f==="q"){S.q=v;const l=$("#ll");if(l)l.innerHTML=libList();return}
+    if(f==="set"||f==="rep"){const c=curEx();if(!c)return;const pr=pw(c.k,c.e.id),arr=f==="set"?pr.kg:pr.reps;arr[+t.dataset.n]=v===""?null:+v;window.save();return}
+    if(f==="cf"){S.cf[t.dataset.k]=v;return}
+    if(f==="p"){DB.prof[t.dataset.k]=v;window.save();const[a,c]=imc();const i=$("#imc"),j=$("#imcc");if(i)i.textContent=a;if(j)j.textContent=c;return}
+    if(f==="pn"){P(S.dia).n=v;window.save();return}
+  });
+
+  document.addEventListener("change",ev=>{
+    const t=ev.target,f=t.dataset.f,k=t.dataset.k;if(!f)return;
+    if(f==="ex"){const d=t.dataset.d!=null?+t.dataset.d:S.dia,pl=DB.plan[d],x=pl&&pl.ex[+t.dataset.i];
+      if(x){x[k]=k==="s"?clampN(t.value,1,10,3):k==="d"?clampN(t.value,0,900,60):(String(t.value).trim()||"10-12")}
+      window.save();rd();return}
+  });
+
+  /* ===================== AUTENTICAÇÃO E ADMIN ===================== */
+  function showAuth(mode="login", error=""){
+    const isLogin = mode==="login";
+    $("#app").innerHTML = `
+      <div class="auth-box">
+        <div class="logo mb">Wil<span>Fit</span></div>
+        <h2 class="mb">${isLogin ? "Entrar" : "Criar Conta"}</h2>
+        ${error ? `<p style="color:var(--red);font-size:13px;margin-bottom:12px">${error}</p>` : ""}
+        <input id="auth-email" type="email" placeholder="E-mail">
+        <input id="auth-pass" type="password" placeholder="Senha">
+        <button class="btn pri w mt2" id="auth-btn">${isLogin ? "Entrar" : "Cadastrar"}</button>
+        <button class="btn w mt2" id="auth-toggle">${isLogin ? "Não tem conta? Cadastre-se" : "Já tem conta? Entre"}</button>
+      </div>`;
+    
+    $("#auth-btn").onclick = async () => {
+      const e = $("#auth-email").value, p = $("#auth-pass").value;
+      if(!e || !p) return;
+      try {
+        if(isLogin) await signInWithEmailAndPassword(auth, e, p);
+        else {
+          const res = await createUserWithEmailAndPassword(auth, e, p);
+          await setDoc(doc(db, "users", res.user.uid), NEW()); // Cria documento inicial
+        }
+      } catch(err) { showAuth(mode, "Erro: " + err.message); }
+    };
+    $("#auth-toggle").onclick = () => showAuth(isLogin ? "register" : "login");
+  }
+
+  function showPending(){
+    $("#app").innerHTML = `<div class="auth-box"><div class="logo mb">Wil<span>Fit</span></div><h2 class="mb">Conta em Análise</h2><p class="mu lh">Sua conta foi criada e está aguardando aprovação do administrador.</p><button class="btn w mt" onclick="location.reload()">Atualizar Status</button></div>`;
+  }
+
+  async function loadAdminUsers(){
+    if(!isAdmin) return;
+    try {
+      const snap = await getDocs(collection(db, "users"));
+      S.adminUsers = [];
+      snap.forEach(doc => {
+        const data = doc.data();
+        if(data.status === "pending" && doc.id !== userUID) {
+          S.adminUsers.push({id: doc.id, email: data.email || "Sem email"});
+        }
+      });
+      rd();
+    } catch(e) { toast("Erro ao carregar usuários"); }
+  }
+
+  async function approveUser(uid){
+    try {
+      await updateDoc(doc(db, "users", uid), { status: "active" });
+      toast("Usuário aprovado!");
+      loadAdminUsers();
+    } catch(e) { toast("Erro ao aprovar"); }
+  }
+
+  onAuthStateChanged(auth, user => {
+    if(dbUnsubscribe) { dbUnsubscribe(); dbUnsubscribe = null; }
+    if(user) {
+      userUID = user.uid;
+      userEmail = user.email;
+      isAdmin = (user.email === ADMIN_EMAIL);
+      
+      dbUnsubscribe = onSnapshot(doc(db, "users", userUID), (docSnap) => {
+        if(docSnap.exists()) {
+          DB = docSnap.data();
+          if(!DB.email) { DB.email = userEmail; window.save(); } // Garante que o email está salvo
+          
+          if(DB.status === "pending" && !isAdmin) {
+            showPending();
+          } else {
+            rd(); // Renderiza o app normal
+          }
+        } else {
+          // Se não tem documento, cria um
+          const newData = NEW();
+          setDoc(doc(db, "users", userUID), newData).then(()=>{ DB = newData; rd(); });
+        }
+      });
+    } else {
+      userUID = null; DB = null;
+      showAuth("login");
+    }
+  });
+
+</script>
+</body>
+</html>
+
